@@ -98,6 +98,48 @@ RSpec.describe Beds24::JSONClient do
       end
     end
   end
+  
+  describe '#get_property_content' do
+    context 'without key' do
+      before(:each) do
+        stub_request(
+          :post,
+          "#{Beds24::Constants::JSON_API_ENDPOINT}/getPropertyContent"
+        ).with(
+          body: subject.send(:authentication, '111')
+            .merge(Beds24::Constants::DEFAULT_PROPERTY_OPTIONS)
+            .to_json
+        ).to_return(body: {
+          error: 'Unauthorized',
+          errorCode: '1000'
+        }.to_json)
+      end
+
+      it 'returns unauthorized message' do
+        expect(subject.get_property_content('111')).to eq ({
+          'error' => 'Unauthorized',
+          'errorCode' => '1000'
+        })
+      end
+    end
+
+    context 'with key' do
+      before(:each) do
+        stub_request(
+          :post,
+          "#{Beds24::Constants::JSON_API_ENDPOINT}/getPropertyContent"
+        ).with(
+          body: subject.send(:authentication, '111')
+            .merge(Beds24::Constants::DEFAULT_PROPERTY_OPTIONS)
+            .to_json
+        ).to_return(body: property_content.to_json)
+      end
+
+      it 'returns property_content' do
+        expect(subject.get_property_content('111')).to eq property_content['getPropertyContent'].first
+      end
+    end
+  end
 
   describe '#get_bookings' do
     context 'without key' do
