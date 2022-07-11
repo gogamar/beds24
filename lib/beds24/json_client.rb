@@ -31,6 +31,19 @@ module Beds24
     rescue APIError => e
       e.response
     end
+    
+    def get_property_content(prop_key, options={})
+      response = self.class.post(
+        '/getPropertyContent',
+        body: payload(prop_key, Constants::DEFAULT_PROPERTY_OPTIONS.merge(options))
+      )
+      json = parse! response
+      json['getPropertyContent'].first
+    rescue Oj::ParseError
+      raise Error, Constants::PARSE_ERROR_MSG
+    rescue APIError => e
+      e.response
+    end
 
     def get_bookings(prop_key, options={})
       response = self.class.post(
