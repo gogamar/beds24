@@ -56,6 +56,19 @@ module Beds24
     rescue APIError => e
       e.response
     end
+    
+    
+    def get_rates(prop_key, options={})
+      response = self.class.post(
+        '/getRates',
+        body: payload(prop_key, Constants::DEFAULT_BOOKING_OPTIONS.merge(options))
+      )
+      parse! response
+    rescue Oj::ParseError
+      raise Error, Constants::PARSE_ERROR_MSG
+    rescue APIError => e
+      e.response
+    end
 
     private
 
