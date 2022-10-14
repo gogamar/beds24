@@ -37,9 +37,8 @@ module Beds24
         '/getPropertyContent',
         body: payload(prop_key, Constants::DEFAULT_PROPERTY_OPTIONS.merge(options))
       )
-      json = parse! response
-      json['getPropertyContent'].first
-    rescue Oj::ParseError
+      parse! response
+      rescue Oj::ParseError
       raise Error, Constants::PARSE_ERROR_MSG
     rescue APIError => e
       e.response
