@@ -72,7 +72,7 @@ module Beds24
     def set_rates(prop_key, options={})
       response = self.class.post(
         '/setRates',
-        body: payload(prop_key, Constants::DEFAULT_RATES_OPTIONS.merge(options))
+        body: payload(prop_key, Constants::DEFAULT_SET_RATES_OPTIONS.merge(options))
       )
       parse! response
     rescue Oj::ParseError
