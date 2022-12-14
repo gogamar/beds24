@@ -16,6 +16,15 @@ module Beds24
       includeInvoice: false,
       includeInfoItems: false
     }.freeze
+    
+   
+    DEFAULT_SET_RATES_OPTIONS = {
+      "setRates": [
+        {
+          "action": "new"
+        }
+      ]
+    }.freeze
 
     VALID_XML_BOOKING_OPTS = %i[
       modified
